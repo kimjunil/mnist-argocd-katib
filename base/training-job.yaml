@@ -1,4 +1,4 @@
-apiVersion: "kubeflow.org/v1alpha3"
+apiVersion: "kubeflow.org/v1beta1"
 kind: Experiment
 metadata:
   namespace: mnist-katib
@@ -54,7 +54,7 @@ spec:
                   image: ghcr.io/kimjunil/mnist_classifier_katib:0.0.3
                   imagePullPolicy: Always
                   command:
-                  - "python3"
+                  - "python"
                   - "/app/train.py"
                   {{- with .HyperParameters}}
                   {{- range .}}
