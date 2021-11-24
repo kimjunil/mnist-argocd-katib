@@ -23,25 +23,26 @@ spec:
   maxTrialCount: 12
   maxFailedTrialCount: 3
   parameters:
-    - name: learning_rate
+    - feasibleSpace:
+        max: "0.03"
+        min: "0.01"
+      name: lr
       parameterType: double
-      feasibleSpace:
-        min: "0.0001"
-        max: "0.1"
-    - name: dropout
-      parameterType: double
-      feasibleSpace:
-        min: "0.1"
+    - feasibleSpace:
         max: "0.8"
+        min: "0.1"
+      name: do
+      parameterType: double
+
   trialTemplate:
     primaryContainerName: training-container
     trialParameters:
       - name: learning_rate
         description: learning rate
-        reference: learning_rate
+        reference: lr
       - name: dropout
         description: dropout
-        reference: dropout
+        reference: do
     trialSpec:
       apiVersion: batch/v1
       kind: Job
@@ -50,7 +51,7 @@ spec:
           spec:
             containers:
               - name: training-container
-                image: ghcr.io/kimjunil/mnist_classifier_katib:0.0.5
+                image: ghcr.io/kimjunil/mnist_classifier_katib:0.0.6
                 command:
                   - "python"
                   - "app/train.py"
