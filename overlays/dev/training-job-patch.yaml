@@ -1,4 +1,4 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: mnist-train-job
+  name: mnist-katib-experiment
