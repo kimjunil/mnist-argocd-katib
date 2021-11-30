@@ -10,13 +10,15 @@ spec:
     source:
       filter:
         metricsFormat:
-          - "([\\w|-]+)\\s*:\\s*((-?\\d+)(\\.\\d+)?)"
+          - "([\\w|-]+)\\s*=\\s*((-?\\d+)(\\.\\d+)?)"
   objective:
     type: maximize
     goal: 0.99
     objectiveMetricName: Validation-accuracy
     additionalMetricNames:
       - Train-accuracy
+      - Train-loss
+      - Validation-loss
   algorithm:
     algorithmName: random
   parallelTrialCount: 2
@@ -43,7 +45,7 @@ spec:
           spec:
             containers:
               - name: training-container
-                image: ghcr.io/kimjunil/mnist_classifier_katib:0.0.10
+                image: ghcr.io/kimjunil/mnist_classifier_katib:0.1.1
                 command:
                   - "python"
                   - "app/train.py"
