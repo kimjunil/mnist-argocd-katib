@@ -1,4 +1,0 @@
-apiVersion: kubeflow.org/v1beta1
-kind: Experiment
-metadata:
-  name: mnist-katib-experiment
