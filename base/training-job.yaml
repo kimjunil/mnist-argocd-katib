@@ -4,21 +4,14 @@ metadata:
   namespace: mnist-katib
   name: mnist-katib-experiment
 spec:
-  metricsCollectorSpec:
-    collector:
-      kind: StdOut
-    source:
-      filter:
-        metricsFormat:
-          - "([\\w|-]+)\\s*=\\s*((-?\\d+)(\\.\\d+)?)"
   objective:
     type: maximize
     goal: 0.99
-    objectiveMetricName: Validation-accuracy
+    objectiveMetricName: val_accuracy
     additionalMetricNames:
-      - Train-accuracy
-      - Train-loss
-      - Validation-loss
+      - accuracy
+      - loss
+      - val_loss
   algorithm:
     algorithmName: random
   parallelTrialCount: 2
