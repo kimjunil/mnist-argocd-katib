@@ -52,6 +52,15 @@ spec:
       - name: units
         description: units
         reference: units
+      - name: learning_rate
+        description: learning_rate
+        reference: learning_rate
+      - name: dropout
+        description: dropout
+        reference: dropout
+      - name: epochs
+        description: epochs
+        reference: epochs
     trialSpec:
       apiVersion: batch/v1
       kind: Job
