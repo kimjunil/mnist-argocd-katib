@@ -45,7 +45,7 @@ spec:
           spec:
             containers:
               - name: training-container
-                image: ghcr.io/kimjunil/mnist_classifier_katib:0.1.1
+                image: ghcr.io/kimjunil/mnist_classifier_katib:0.1.2
                 command:
                   - "python"
                   - "app/train.py"
