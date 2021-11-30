@@ -14,35 +14,27 @@ spec:
   objective:
     type: maximize
     goal: 0.99
-    objectiveMetricName: val_accuracy
+    objectiveMetricName: Validation-accuracy
     additionalMetricNames:
-      - accuracy
+      - Train-accuracy
   algorithm:
     algorithmName: random
-  parallelTrialCount: 3
+  parallelTrialCount: 2
   maxTrialCount: 12
   maxFailedTrialCount: 3
   parameters:
-    - feasibleSpace:
-        max: "0.03"
-        min: "0.01"
-      name: lr
-      parameterType: double
-    - feasibleSpace:
-        max: "0.8"
-        min: "0.1"
-      name: do
-      parameterType: double
+    - name: units
+      parameterType: int
+      feasibleSpace:
+        min: "64"
+        max: "512"
 
   trialTemplate:
     primaryContainerName: training-container
     trialParameters:
-      - name: learning_rate
-        description: learning rate
-        reference: lr
-      - name: dropout
-        description: dropout
-        reference: do
+      - name: units
+        description: units
+        reference: units
     trialSpec:
       apiVersion: batch/v1
       kind: Job
@@ -51,10 +43,53 @@ spec:
           spec:
             containers:
               - name: training-container
-                image: ghcr.io/kimjunil/mnist_classifier_katib:0.0.6
+                image: ghcr.io/kimjunil/mnist_classifier_katib:0.0.10
                 command:
                   - "python"
                   - "app/train.py"
-                  - "--dropout=${trialParameters.dropout}"
-                  - "--learning_rate=${trialParameters.learning_rate}"
+                  - "--units=${trialParameters.units}"
             restartPolicy: Never
+
+# apiVersion: kubeflow.org/v1beta1
+# kind: Experiment
+# metadata:
+#   namespace: mnist-katib
+#   name: simple-mnist
+# spec:
+#   objective:
+#     type: maximize
+#     goal: 0.99
+#     objectiveMetricName: test-acc
+#     additionalMetricNames:
+#       - test-loss
+#   algorithm:
+#     algorithmName: random
+#   parallelTrialCount: 2
+#   maxTrialCount: 12
+#   maxFailedTrialCount: 3
+#   parameters:
+#     - name: hidden_units
+#       parameterType: int
+#       feasibleSpace:
+#         min: "32"
+#         max: "256"
+#   trialTemplate:
+#     primaryContainerName: training-container
+#     trialParameters:
+#       - name: hidden_units
+#         description: hidden layer unints
+#         reference: hidden_units
+#     trialSpec:
+#       apiVersion: batch/v1
+#       kind: Job
+#       spec:
+#         template:
+#           spec:
+#             containers:
+#               - name: training-container
+#                 image: ghcr.io/kimjunil/mnist_classifier_katib:0.0.11
+#                 command:
+#                   - "python"
+#                   - "/train.py"
+#                   - "--hidden_units=${trialParameters.hidden_units}"
+#             restartPolicy: Never

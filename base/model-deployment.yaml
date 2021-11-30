@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mnist-classifier-deployment
+  labels:
+    app: mnist-classifier
+spec:
+  selector:
+    matchLabels:
+      app: mnist-classifier
+  template:
+    metadata:
+      labels:
+        app: mnist-classifier
+    spec:
+      containers:
+        - image: ghcr.io/kimjunil/mnist_classifier_bento:0.0.2
+          imagePullPolicy: Always
+          name: mnist-classifier
+          ports:
+            - containerPort: 5000
