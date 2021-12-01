@@ -78,3 +78,5 @@ spec:
                   - "--dropout=${trialParameters.dropout}"
                   - "--epochs=${trialParameters.epochs}"
             restartPolicy: Never
+            nodeSelector:
+              cloud.google.com/gke-nodepool: gpu-pool
