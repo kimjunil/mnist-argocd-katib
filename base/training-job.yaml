@@ -4,8 +4,6 @@ metadata:
   namespace: junil
   name: mnist-katib-experiment
 spec:
-  nodeSelector:
-    cloud.google.com/gke-nodepool: gpu-pool
   metricsCollectorSpec:
     collector:
       kind: StdOut
