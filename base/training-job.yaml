@@ -1,7 +1,7 @@
 apiVersion: kubeflow.org/v1beta1
 kind: Experiment
 metadata:
-  namespace: mnist-katib
+  namespace: junil
   name: mnist-katib-experiment
 spec:
   metricsCollectorSpec:
@@ -21,8 +21,8 @@ spec:
       - val_loss
   algorithm:
     algorithmName: random
-  parallelTrialCount: 2
-  maxTrialCount: 64
+  parallelTrialCount: 3
+  maxTrialCount: 32
   maxFailedTrialCount: 3
   parameters:
     - name: units
