@@ -69,6 +69,10 @@ spec:
           spec:
             nodeSelector:
               cloud.google.com/gke-nodepool: gpu-pool
+            tolerations:
+              - key: "nvidia.com/gpu"
+                operator: "Exists"
+                effect: "NoSchedule"
             containers:
               - name: training-container
                 image: ghcr.io/kimjunil/mnist_classifier_katib:0.1.2
