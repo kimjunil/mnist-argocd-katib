@@ -5,7 +5,7 @@ metadata:
   name: mnist-katib-experiment
 spec:
   nodeSelector:
-    cloud.google.com/gke-nodepool: gpu-pool
+    accelerator: nvidia-tesla-p100
   metricsCollectorSpec:
     collector:
       kind: StdOut
