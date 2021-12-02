@@ -67,6 +67,8 @@ spec:
       spec:
         template:
           spec:
+            nodeSelector:
+              cloud.google.com/gke-nodepool: gpu-pool
             containers:
               - name: training-container
                 image: ghcr.io/kimjunil/mnist_classifier_katib:0.1.2
@@ -78,6 +80,3 @@ spec:
                   - "--dropout=${trialParameters.dropout}"
                   - "--epochs=${trialParameters.epochs}"
             restartPolicy: Never
-
-      nodeSelector:
-        cloud.google.com/gke-nodepool: gpu-pool
