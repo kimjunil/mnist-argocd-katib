@@ -4,8 +4,6 @@ metadata:
   namespace: junil
   name: mnist-katib-experiment
 spec:
-  nodeSelector:
-    accelerator: nvidia-tesla-p100
   metricsCollectorSpec:
     collector:
       kind: StdOut
@@ -80,3 +78,6 @@ spec:
                   - "--dropout=${trialParameters.dropout}"
                   - "--epochs=${trialParameters.epochs}"
             restartPolicy: Never
+
+      nodeSelector:
+        cloud.google.com/gke-nodepool: gpu-pool
