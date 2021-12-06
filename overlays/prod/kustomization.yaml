@@ -6,3 +6,5 @@ resources:
 images:
 - name: ghcr.io/kimjunil/mnist_classifier_katib
   newTag: 0.2.2
+- name: ghcr.io/kimjunil/mnist_classifier_katib_deploy
+  newTag: 0.0.2
