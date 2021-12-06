@@ -1,86 +1,13 @@
-apiVersion: kubeflow.org/v1beta1
-kind: Experiment
+apiVersion: batch/v1
+kind: Job
 metadata:
-  namespace: junil
-  name: mnist-katib-experiment
+  name: mnist-train-job
 spec:
-  metricsCollectorSpec:
-    collector:
-      kind: StdOut
-    source:
-      filter:
-        metricsFormat:
-          - "([\\w|-]+)\\s*:\\s*((-?\\d+)(\\.\\d+)?)"
-  objective:
-    type: maximize
-    goal: 0.99
-    objectiveMetricName: val_accuracy
-    additionalMetricNames:
-      - accuracy
-      - loss
-      - val_loss
-  algorithm:
-    algorithmName: random
-  parallelTrialCount: 3
-  maxTrialCount: 32
-  maxFailedTrialCount: 3
-  parameters:
-    - name: units
-      parameterType: int
-      feasibleSpace:
-        min: "64"
-        max: "512"
-    - name: learning_rate
-      parameterType: double
-      feasibleSpace:
-        min: "0.0001"
-        max: "0.01"
-    - name: dropout
-      parameterType: double
-      feasibleSpace:
-        min: "0.1"
-        max: "0.8"
-    - name: epochs
-      parameterType: int
-      feasibleSpace:
-        min: "3"
-        max: "15"
+  ttlSecondsAfterFinished: 600
+  template:
+    spec:
+      containers:
+      - name: mnist-classifier
+        image: ghcr.io/kimjunil/mnist_classifier_katib_deploy:0.0.2
 
-  trialTemplate:
-    primaryContainerName: training-container
-    trialParameters:
-      - name: units
-        description: units
-        reference: units
-      - name: learning_rate
-        description: learning_rate
-        reference: learning_rate
-      - name: dropout
-        description: dropout
-        reference: dropout
-      - name: epochs
-        description: epochs
-        reference: epochs
-    trialSpec:
-      apiVersion: batch/v1
-      kind: Job
-      spec:
-        template:
-          spec:
-            nodeSelector:
-              cloud.google.com/gke-nodepool: gpu-pool
-            tolerations:
-              - key: "nvidia.com/gpu"
-                operator: "Exists"
-                effect: "NoSchedule"
-            containers:
-              - name: training-container
-                image: ghcr.io/kimjunil/mnist_classifier_katib:0.1.2
-                command:
-                  - "python"
-                  - "app/train.py"
-                  - "--units=${trialParameters.units}"
-                  - "--learning_rate=${trialParameters.learning_rate}"
-                  - "--dropout=${trialParameters.dropout}"
-                  - "--epochs=${trialParameters.epochs}"
-            restartPolicy: Never
+      restartPolicy: Never

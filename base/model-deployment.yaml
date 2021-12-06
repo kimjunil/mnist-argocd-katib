@@ -14,7 +14,7 @@ spec:
         app: mnist-classifier
     spec:
       containers:
-        - image: ghcr.io/kimjunil/mnist_classifier_bento:0.0.2
+        - image: ghcr.io/kimjunil/mnist_classifier_katib:0.1.2
           imagePullPolicy: Always
           name: mnist-classifier
           ports:

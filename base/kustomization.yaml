@@ -8,4 +8,7 @@ commonLabels:
   app: mnist-katib
 
 resources:
+- experiment-job.yaml
 - training-job.yaml
+- model-deployment.yaml
+- model-loadbalancer.yaml
